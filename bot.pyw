@@ -9,6 +9,9 @@ bot = commands.Bot(command_prefix='!')
 bot.remove_command('help')
 arr = ['3star', '2star', '1star']
 rate = [2, 18, 80]#控制機率
+img_3star='<:s3tar:576360579644784651>'#discord img
+img_2star='<:s2tar:576360578357133343>'
+img_1star='<:s1tar:576360195341680648>'
 
 @bot.event
 async def on_ready():
@@ -18,38 +21,36 @@ async def on_ready():
     print('------')
 
 @bot.command()
-async def 抽卡(ctx,som:str=''):
+async def 抽卡(ctx,som:str=''):#som為抓 "!抽卡" 後的文字
     card = [None]*10
     for i in range(10):
         prob_card=arr[random_index(rate)]#先給定  避免每次if都是不同的
-
-        if prob_card == '3star':
-            card[i]='<:s3tar:576360579644784651>' #去discord加入三星的表情後，反斜線\+表情按送出，所顯示的那一串 自行更改
+		
+        if prob_card == '3star':#去discord加入三星的表情後，反斜線\+表情按送出，所顯示的那一串 自行更改
+            card[i]=img_3star
         elif prob_card == '2star':
-            card[i]='<:s2tar:576360578357133343>'
+            card[i]=img_2star
         elif prob_card == '1star':
-            card[i]='<:s1tar:576360195341680648>'
+            card[i]=img_1star
         else:
-            print (str(i)+'被拋出'+arr[random_index(rate)])
-            card[i]='<:s1tar:576360195341680648>'
-    
-    if card.count('<:s1tar:576360195341680648>')==10:#保底
+            card[i]=img_1star
+
+    if card.count(img_1star)==10:#保底
         for x in range(9,-1,-1):
-            if  card[x]=='<:s1tar:576360195341680648>':
-                card[x]='<:s2tar:576360578357133343>'
+            if  card[x]==img_1star:
+                card[x]=img_2star
                 break
 
-    la=''
-    if card.count('<:s1tar:576360195341680648>')==9:#保底嘲諷
-        if card.count('<:s3tar:576360579644784651>')!=1:
-            la='笑死 +19 非洲人4你?'+'<:bla:576508370920407259>'
+    msg=''
+    if card.count(img_1star)==9:#保底嘲諷
+        if card.count(img_3star)!=1:
+            msg='笑死 +19 非洲人4你?'+'<:bla:576508370920407259>'
 
-    if card.count('<:s3tar:576360579644784651>')>=1:#抽到彩的恭喜
-        la='太神啦 中了'+str(card.count('<:s3tar:576360579644784651>'))+'張彩!'+'<:wa:576506556032483329>'
-
+    if card.count(img_3star)>=1:#抽到彩的恭喜
+        msg='太神啦 中了'+str(card.count(img_3star))+'張彩!'+'<:wa:576506556032483329>'
 
     lol="".join('%s' %id for id in card)
-    await ctx.send(str(ctx.message.author)+' > '+lol+la+'\t'+som)
+    await ctx.send(str(ctx.message.author)+' > '+lol+msg+'\t'+som)#ctx.message.author獲取discord用戶id
 
 @bot.command()
 async def 抽卡機率(ctx):
@@ -90,4 +91,4 @@ def random_index(rate):
             break
     return index
 
-bot.run('your discod bot token')
+bot.run('your discord bot token')#輸入你的discord bot token
