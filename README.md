@@ -1,2 +1,8 @@
 # pcredive_gacha_discordbot
 一個discord的公主連結抽卡機器人
+
+建立discord機器人方法請自行搜尋
+
+編譯:pyinstaller -F pcredive_gacha_discordbot.pyw 執行後在背景 不會出現任何視窗
+
+最後的token請自行更改 如需換圖片請自行新增表情至discord
