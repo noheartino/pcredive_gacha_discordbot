@@ -1,0 +1,2 @@
+# pcredive_gacha_discordbot
+一個discord的公主連結抽卡機器人
